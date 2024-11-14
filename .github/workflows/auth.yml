@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
+        php-version: '8.3'
         extensions: mbstring, xml, ctype, iconv, mysql
 
     - name: Cache Composer Packages
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -50,7 +50,7 @@ jobs:
       run: php artisan migrate
 
     - name: Run the Auth Migrations
-      run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 
+      run: php artisan migrate --path=vendor/devdojo/auth/database/migrations
 
     - name: Install PestPHP
       run: composer require pestphp/pest --dev --with-all-dependencies
