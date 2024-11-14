@@ -1,0 +1,20 @@
+name: portal
+recipe: laravel
+config:
+  composer_version: '2-latest'
+  webroot: ./public
+  database: mysql:8.0
+  php: '8.3'
+  via: nginx
+  cache: redis
+tooling:
+  dust:
+    service: appserver
+    description: Run Duster fix|lint
+    cmd: ./vendor/bin/duster
+    dir: /app
+  art:
+    service: appserver
+    description: Run an Artisan command
+    cmd: php artisan
+    dir: /app
