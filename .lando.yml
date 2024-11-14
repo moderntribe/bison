@@ -1,4 +1,4 @@
-name: portal
+name: bison
 recipe: laravel
 config:
   composer_version: '2-latest'
@@ -7,6 +7,10 @@ config:
   php: '8.3'
   via: nginx
   cache: redis
+services:
+  appserver:
+    run:
+      - composer install --optimize-autoloader
 tooling:
   dust:
     service: appserver
