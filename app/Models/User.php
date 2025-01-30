@@ -5,8 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Devdojo\Auth\Models\User as AuthUser;
+use Filament\AvatarProviders\UiAvatarsProvider;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -37,9 +39,20 @@ class User extends AuthUser implements FilamentUser
         'remember_token',
     ];
 
+    protected $appends = [
+        'avatar',
+    ];
+
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    public function avatar(): Attribute
+    {
+        return new Attribute(
+            get: fn () => (new UiAvatarsProvider)->get($this)
+        );
     }
 
     /**
