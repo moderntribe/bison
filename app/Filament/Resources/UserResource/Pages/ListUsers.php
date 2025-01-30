@@ -49,7 +49,11 @@ class ListUsers extends ListRecords
                     ]);
 
                     Mail::to($user->email)->send(new InviteUser($user));
-                    Notification::make(__('The user invite has been sent.'))->success();
+                    Notification::make()
+                        ->success()
+                        ->title('Invitation sent')
+                        ->body('Invitation has been successfully sent to the recipient.')
+                        ->send();
                 }),
         ];
     }
