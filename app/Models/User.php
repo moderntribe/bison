@@ -3,17 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Devdojo\Auth\Models\User as AuthUser;
 use Filament\AvatarProviders\UiAvatarsProvider;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends AuthUser implements FilamentUser
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, Notifiable;
@@ -27,6 +26,7 @@ class User extends AuthUser implements FilamentUser
         'name',
         'email',
         'password',
+        'invite_token',
     ];
 
     /**
@@ -37,6 +37,7 @@ class User extends AuthUser implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+        'invite_token',
     ];
 
     protected $appends = [
@@ -65,6 +66,7 @@ class User extends AuthUser implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'invite_token'      => 'encrypted',
         ];
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\RolesEnum;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -47,9 +47,10 @@ class UserResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->autofocus(),
-                        Select::make('roles')
-                            ->relationship(name: 'roles', titleAttribute: 'name')
-                            ->preload()
+                        Select::make('roles.name')
+                            ->label(__('Role'))
+                            ->relationship('roles', 'name')
+                            ->getOptionLabelFromRecordUsing(fn (Role $record) => $record->name->getLabel())
                             ->required(),
                     ])
                     ->inlineLabel(),
@@ -96,8 +97,6 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label(__('Role'))
-                    ->formatStateUsing(fn (string $state) => RolesEnum::from(strtolower($state))->getLabel())
-                    ->color(fn (string $state) => RolesEnum::from(strtolower($state))->getColor())
                     ->badge(),
             ])
             ->defaultPaginationPageOption(25)
