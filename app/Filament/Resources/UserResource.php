@@ -101,9 +101,6 @@ class UserResource extends Resource
             ])
             ->defaultPaginationPageOption(25)
             ->paginationPageOptions([25, 50, 100, 250])
-            ->filters([
-                //
-            ])
             ->actions([
                 ActionGroup::make([
                     EditAction::make()
@@ -120,13 +117,6 @@ class UserResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
