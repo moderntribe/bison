@@ -22,7 +22,7 @@ class InviteUser extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'You have been invited to join the team!',
+            subject: __('You have been invited to join the team!'),
         );
     }
 
