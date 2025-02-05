@@ -26,5 +26,8 @@ return [
     ],
 
     RolesEnum::EDITOR->value => [
+        'admin.view',
+        'admin.users.view-any',
+        'admin.users.view',
     ],
 ];
