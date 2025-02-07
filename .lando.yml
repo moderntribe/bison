@@ -9,9 +9,23 @@ config:
   cache: redis
 services:
   appserver:
-    run:
-      - composer install --optimize-autoloader
+    ssl: true
+    sslExpose: true
+  node:
+    type: node:22
+events:
+  pre-start:
+    - appserver: |
+        composer run post-root-package-install
+        composer install
+  post-start:
+    - appserver: |
+        php artisan key:generate --ansi
+        php artisan migrate
+    - node: npm install && npm run build
 tooling:
+  npm:
+    service: node
   dust:
     service: appserver
     description: Run Duster fix|lint
@@ -22,3 +36,18 @@ tooling:
     description: Run an Artisan command
     cmd: php artisan
     dir: /app
+  test:
+    service: appserver
+    description: Run Pest
+    cmd: |
+      php artisan migrate --env=testing
+      ./vendor/bin/pest
+  cache-clear:
+    service: appserver
+    description: Clear all caches
+    cmd: |
+      php artisan cache:clear
+      php artisan config:clear
+      php artisan route:clear
+      php artisan view:clear
+      php artisan filament:optimize-clear

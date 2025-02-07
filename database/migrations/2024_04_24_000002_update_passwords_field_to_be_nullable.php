@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable()->change();
             $table->string('name')->nullable()->change();
+            $table->text('invite_token')->nullable()->after('remember_token');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('name')->nullable(false)->change();
             $table->string('password')->nullable(false)->change();
+            $table->dropColumn('invite_token');
         });
     }
 };
