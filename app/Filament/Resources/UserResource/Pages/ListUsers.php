@@ -26,7 +26,7 @@ class ListUsers extends ListRecords
     {
         return [
             RichTextWidget::make([
-                'content' => 'Users who have access to this Application. Only an Admin can invite users and assign user roles.',
+                'content' => __('Users who have access to this Application. Only an Admin can invite users and assign user roles.'),
                 'lazy'    => false, // disable Lazy load of the widget content
             ]),
         ];
