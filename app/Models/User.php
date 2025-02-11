@@ -20,7 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, Notifiable, LogsActivity;
+    use HasFactory, HasRoles, LogsActivity, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +61,12 @@ class User extends Authenticatable implements FilamentUser
         );
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email']);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -73,11 +79,5 @@ class User extends Authenticatable implements FilamentUser
             'password'          => 'hashed',
             'invite_token'      => 'string',
         ];
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['name', 'email']);
     }
 }
