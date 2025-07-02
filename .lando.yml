@@ -22,6 +22,7 @@ events:
     - appserver: |
         php artisan key:generate --ansi
         php artisan migrate
+        php artisan db:seed
     - node: npm install && npm run build
 tooling:
   npm:
@@ -65,3 +66,7 @@ tooling:
       php artisan view:clear
       php artisan filament:optimize-clear
       php artisan filament:clear-cached-components
+  make-user:
+    service: appserver
+    description: Create a new user
+    cmd: php artisan make:filament-user
