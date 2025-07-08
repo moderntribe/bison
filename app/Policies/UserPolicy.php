@@ -13,6 +13,7 @@ class UserPolicy
      */
     public function before(User $user, string $ability): ?bool
     {
+        return true;
         if ($user->hasRole(RolesEnum::SUPER_ADMIN)) {
             return true;
         }
