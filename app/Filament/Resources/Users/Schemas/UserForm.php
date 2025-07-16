@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserForm
 {
@@ -24,11 +26,25 @@ class UserForm
                             ->required()
                             ->maxLength(255),
                         TextInput::make('password')
+                            ->label(__('New Password'))
+                            ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password.validation_attribute'))
                             ->password()
-                            ->minLength(8)
-                            ->confirmed()
-                            ->dehydrateStateUsing(fn($state) => bcrypt($state))
-                            ->required(),
+                            ->revealable(filament()->arePasswordsRevealable())
+                            ->rule(Password::default())
+                            ->showAllValidationMessages()
+                            ->autocomplete('new-password')
+                            ->dehydrated(fn ($state): bool => filled($state))
+                            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+                            ->live(debounce: 500)
+                            ->same('passwordConfirmation'),
+                        TextInput::make('passwordConfirmation')
+                            ->label(__('Confirm New Password'))
+                            ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password_confirmation.validation_attribute'))
+                            ->password()
+                            ->revealable(filament()->arePasswordsRevealable())
+                            ->required()
+                            ->visible(fn (Get $get): bool => filled($get('password')))
+                            ->dehydrated(false),
                     ])
                     ->columnSpanFull(),
             ]);

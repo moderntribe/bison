@@ -9,7 +9,6 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 
 class ManageSettings extends SettingsPage
 {
