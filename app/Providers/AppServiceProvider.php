@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Filament\Support\Facades\FilamentColor;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,9 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        FilamentColor::register([
-            'primary'   => '#3050e5',
-            'secondary' => '#08d698',
-        ]);
+        //
     }
 }
