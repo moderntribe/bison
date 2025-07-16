@@ -52,6 +52,7 @@ class EditProfile extends EditProfileBase
                                 $this->getCurrentPasswordFormComponent(),
                             ]),
                     ])
+                    ->inlineLabel(false)
                     ->persistTabInQueryString(),
             ]);
     }
