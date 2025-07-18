@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\NavigationGroupsEnum;
 use App\Settings\GeneralSettings;
 use BackedEnum;
 use Filament\Forms\Components\TextInput;
@@ -9,6 +10,7 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class ManageSettings extends SettingsPage
 {
@@ -17,6 +19,8 @@ class ManageSettings extends SettingsPage
     protected static ?string $title = 'Settings';
 
     protected static ?int $navigationSort = 11;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroupsEnum::ADMIN;
 
     protected static string|BackedEnum|null $navigationIcon = 'phosphor-gear-six';
 

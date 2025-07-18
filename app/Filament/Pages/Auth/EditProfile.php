@@ -3,7 +3,9 @@
 namespace App\Filament\Pages\Auth;
 
 use App\Filament\Resources\Users\UserResource;
+use App\Models\Role;
 use Filament\Auth\Pages\EditProfile as EditProfileBase;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -40,7 +42,16 @@ class EditProfile extends EditProfileBase
                                 $this->getNameFormComponent()
                                     ->helperText(__('Your full name, used for display purposes')),
                                 $this->getEmailFormComponent()
-                                    ->helperText(__('Your email address, used for notifications and account recovery')),
+                                    ->helperText(__('Your email address, used for notifications and account recovery'))
+                                    ->prefixIcon('phosphor-envelope-simple'),
+                                Select::make('roles')
+                                    ->label(__('Role'))
+                                    ->relationship('roles', 'name')
+                                    ->getOptionLabelFromRecordUsing(fn (Role $record) => $record?->name?->getLabel())
+                                    ->prefixIcon('phosphor-shield-check')
+                                    ->required()
+                                    ->searchable()
+                                    ->preload(),
                             ]),
                         Tab::make(__('Security'))
                             ->schema([

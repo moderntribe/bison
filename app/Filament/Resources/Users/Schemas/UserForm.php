@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Role;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
@@ -24,7 +26,20 @@ class UserForm
                         TextInput::make('email')
                             ->email()
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->prefixIcon('phosphor-envelope-simple')
+                            ->unique()
+                            ->validationMessages([
+                                'unique' => 'This :attribute has already been registered.',
+                            ]),
+                        Select::make('roles')
+                            ->label(__('Role'))
+                            ->relationship('roles', 'name')
+                            ->getOptionLabelFromRecordUsing(fn (Role $record) => $record?->name?->getLabel())
+                            ->prefixIcon('phosphor-shield-check')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
                         TextInput::make('password')
                             ->label(__('New Password'))
                             ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password.validation_attribute'))

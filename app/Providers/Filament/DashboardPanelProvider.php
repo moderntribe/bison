@@ -32,10 +32,11 @@ class DashboardPanelProvider extends PanelProvider
             ->login()
             ->profile(page: EditProfile::class, isSimple: false)
             ->colors([
-                'primary'   => '#3050e5',
-                'secondary' => '#08d698',
+                'primary'   => '#2ecc71',
+                'secondary' => '#27ae60',
             ])
             ->userMenu()
+            ->darkMode()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
