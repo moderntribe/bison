@@ -30,6 +30,8 @@ class DashboardPanelProvider extends PanelProvider
             ->id('dashboard')
             ->path('dashboard')
             ->login()
+            ->passwordReset()
+            ->registration()
             ->profile(page: EditProfile::class, isSimple: false)
             ->colors([
                 'primary'   => '#2ecc71',
