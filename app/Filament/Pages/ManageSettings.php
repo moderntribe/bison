@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Filament\Pages\Settings;
+namespace App\Filament\Pages;
 
+use App\Enums\NavigationGroupsEnum;
 use App\Settings\GeneralSettings;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
+use BackedEnum;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use UnitEnum;
 
 class ManageSettings extends SettingsPage
 {
@@ -15,16 +18,16 @@ class ManageSettings extends SettingsPage
 
     protected static ?string $title = 'Settings';
 
-    protected static ?string $navigationIcon = 'phosphor-gear-six';
-
     protected static ?int $navigationSort = 11;
 
-    protected static ?string $navigationLabel = 'Settings';
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroupsEnum::ADMIN;
 
-    public function form(Form $form): Form
+    protected static string|BackedEnum|null $navigationIcon = 'phosphor-gear-six';
+
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make(__('General'))
