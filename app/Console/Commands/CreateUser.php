@@ -65,7 +65,7 @@ class CreateUser extends Command
                     User::create([
                         'name'     => $name,
                         'email'    => $email,
-                        'password' => bcrypt($password),
+                        'password' => Hash::make($password),
                     ])
                 )
                     ->assignRole($role);
