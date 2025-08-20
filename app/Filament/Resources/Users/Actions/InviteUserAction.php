@@ -53,12 +53,13 @@ class InviteUserAction
                     ->helperText(__('Select the role for this user.'))
                     ->prefixIcon('phosphor-shield-check')
                     ->options(RolesEnum::class)
-                    ->default(RolesEnum::EDITOR->value),
+                    ->default(RolesEnum::EDITOR->value)
+                    ->required(),
             ])
-            ->action(fn (array $data) => $this->handle($data));
+            ->action(fn (array $data) => InviteUserAction::handle($data));
     }
 
-    public function handle(array $data): void
+    public static function handle(array $data): void
     {
         $validator = Validator::make($data, [
             'name'  => 'required',
@@ -77,14 +78,19 @@ class InviteUserAction
         // Retrieve the validated input...
         $validated = $validator->validated();
 
-        // Create a new user with the provided data
-        $user = User::create([
-            'name'         => $validated['name'],
-            'email'        => $validated['email'],
-            'password'     => null,
-            'invite_token' => Str::random(60),
-        ]);
-        $user->assignRole(RolesEnum::from($validated['role']));
+        // Create user without firing events
+        // this will be a "silent" creation to prevent our default role assignment from triggering
+        $user = User::withoutEvents(function () use ($validated) {
+            return tap(
+                User::create([
+                    'name'         => $validated['name'],
+                    'email'        => $validated['email'],
+                    'password'     => null,
+                    'invite_token' => Str::random(60),
+                ])
+            )
+                ->assignRole($validated['role']);
+        });
 
         // Send email to the requested user
         Mail::to($user->email)->send(new InviteUser($user));

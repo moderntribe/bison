@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('invite_token')->nullable();
             $table->text('app_authentication_secret')->nullable();
+            $table->text('app_authentication_recovery_codes')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
