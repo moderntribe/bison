@@ -9,7 +9,6 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Size;
 use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +25,7 @@ class InviteUserAction
             ->icon('phosphor-envelope-simple')
             ->size(Size::Small)
             ->color('gray')
-            ->modalIconColor(Color::Blue)
+            ->modalIconColor('primary')
             ->modalDescription(__('Manage the access level a user has for your Account by assigning them a Role. Invitations will be sent by email to the user added below.'))
             ->modalIcon('phosphor-user-plus-duotone')
             ->modalWidth(Width::ExtraLarge)
