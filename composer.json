@@ -14,7 +14,8 @@
         "filament/spatie-laravel-settings-plugin": "^4.0",
         "laravel/framework": "^12",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-permission": "^6.10"
+        "spatie/laravel-permission": "^6.10",
+        "vizra/vizra-adk": "^0.0.20"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
