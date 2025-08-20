@@ -46,11 +46,13 @@ class CreateUser extends Command
         );
         $role = select(
             label: 'What is the role of the user?',
-            options: [
-                RolesEnum::ADMIN->value       => RolesEnum::ADMIN->getLabel(),
-                RolesEnum::EDITOR->value      => RolesEnum::EDITOR->getLabel(),
-                RolesEnum::SUPER_ADMIN->value => RolesEnum::SUPER_ADMIN->getLabel(),
-            ]
+            options: collect(RolesEnum::cases())
+                ->flatMap(function ($role) {
+                    return [
+                        $role->value => $role->getLabel(),
+                    ];
+                })
+                ->toArray()
         );
 
         try {
