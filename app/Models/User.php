@@ -76,7 +76,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         return $this->can('admin.users.impersonate');
     }
 
-    public function canBeImpersonated()
+    public function canBeImpersonated(): bool
     {
         // Let's prevent Super Admins from being impersonated
         return ! $this->hasRole(RolesEnum::SUPER_ADMIN);
