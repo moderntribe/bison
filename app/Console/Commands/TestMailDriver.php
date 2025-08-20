@@ -18,6 +18,11 @@ class TestMailDriver extends Command implements PromptsForMissingInput
      */
     protected $signature = 'app:test-mail-driver {recipientEmail : The email address to send the test mail to}';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Send a test mail to the specified email address';
 
     /**
