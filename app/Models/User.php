@@ -73,7 +73,13 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
             ->map(fn (string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
             ->join(' ');
 
-        return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=FFFFFF&background=000000';
+        return uri('https://ui-avatars.com/api/')
+            ->withQuery([
+                'name'       => $name,
+                'color'      => 'FFFFFF',
+                'background' => '000000',
+            ])
+            ->value();
     }
 
     public function getAppAuthenticationSecret(): ?string
