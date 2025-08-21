@@ -22,7 +22,7 @@ class ManageSettings extends SettingsPage
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroupsEnum::ADMIN;
 
-    protected static string|BackedEnum|null $navigationIcon = 'phosphor-gear-six';
+    protected static string|BackedEnum|null $navigationIcon = 'phosphor-sliders';
 
     public function form(Schema $schema): Schema
     {

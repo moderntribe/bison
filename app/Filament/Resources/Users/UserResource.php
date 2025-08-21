@@ -19,7 +19,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'phosphor-users-duotone';
+    protected static string|BackedEnum|null $navigationIcon = 'phosphor-users';
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroupsEnum::ADMIN;
 

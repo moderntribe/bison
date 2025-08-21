@@ -87,7 +87,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         $name = str(Filament::getNameForDefaultAvatar($this))
             ->trim()
             ->explode(' ')
-            ->map(fn(string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
+            ->map(fn (string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
             ->join(' ');
 
         return uri('https://ui-avatars.com/api/')
