@@ -36,7 +36,7 @@ class InviteUser extends Mailable
             markdown: 'mail.auth.invite-user',
             with: [
                 'acceptUrl' => URL::signedRoute(
-                    'filament.dashboard.auth.register',
+                    'filament.invite.auth.register',
                     [
                         'token' => $this->user->makeVisible('invite_token')->invite_token,
                     ],
