@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\RolesEnum;
 use App\Observers\UserObserver;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
@@ -63,6 +65,21 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    public function canImpersonate(): bool
+    {
+        if ($this->hasRole(RolesEnum::SUPER_ADMIN)) {
+            return true;
+        }
+
+        return $this->can('admin.users.impersonate');
+    }
+
+    public function canBeImpersonated(): bool
+    {
+        // Let's prevent Super Admins from being impersonated
+        return ! $this->hasRole(RolesEnum::SUPER_ADMIN);
     }
 
     public function getFilamentAvatarUrl(): ?string
