@@ -2,20 +2,20 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\URL;
 
-class InviteUser extends Mailable
+class TestEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public User $user) {}
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Get the message envelope.
@@ -23,7 +23,7 @@ class InviteUser extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('You have been invited to join the team!'),
+            subject: 'Test Email',
         );
     }
 
@@ -33,22 +33,14 @@ class InviteUser extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.auth.invite-user',
-            with: [
-                'acceptUrl' => URL::signedRoute(
-                    'filament.invite.auth.register',
-                    [
-                        'token' => $this->user->makeVisible('invite_token')->invite_token,
-                    ],
-                ),
-            ]
+            markdown: 'mail.test',
         );
     }
 
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, Attachment>
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {

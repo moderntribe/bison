@@ -61,10 +61,19 @@ class EditProfile extends EditProfileBase
                                     ->label(__('Confirm New Password'))
                                     ->helperText(__('Verify your new password')),
                                 $this->getCurrentPasswordFormComponent(),
+                                $this->getMultiFactorAuthenticationContentComponent(),
                             ]),
                     ])
                     ->inlineLabel(false)
                     ->persistTabInQueryString(),
+            ]);
+    }
+
+    public function content(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                $this->getFormContentComponent(),
             ]);
     }
 }

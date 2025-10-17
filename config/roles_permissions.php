@@ -23,6 +23,7 @@ return [
         'admin.users.delete',
         'admin.users.restore',
         'admin.users.force-delete',
+        'admin.users.impersonate',
     ],
 
     RolesEnum::EDITOR->value => [
