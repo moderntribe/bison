@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -35,7 +36,7 @@ class InviteUser extends Mailable
             markdown: 'mail.auth.invite-user',
             with: [
                 'acceptUrl' => URL::signedRoute(
-                    'filament.dashboard.auth.register',
+                    'filament.invite.auth.register',
                     [
                         'token' => $this->user->makeVisible('invite_token')->invite_token,
                     ],
@@ -47,7 +48,7 @@ class InviteUser extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

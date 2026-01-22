@@ -22,6 +22,7 @@ events:
     - appserver: |
         php artisan key:generate --ansi
         php artisan migrate
+        php artisan db:seed
     - node: npm install && npm run build
 tooling:
   npm:
@@ -42,12 +43,30 @@ tooling:
     cmd: |
       php artisan migrate --env=testing
       ./vendor/bin/pest
-  cache-clear:
+  cache:
+    service: appserver
+    description: Cache all the things
+    cmd: |
+      php artisan config:cache
+      php artisan event:cache
+      php artisan route:cache
+      php artisan view:cache
+      php artisan icons:cache
+      php artisan optimize
+      php artisan filament:optimize
+      php artisan filament:cache-components
+  clear:
     service: appserver
     description: Clear all caches
     cmd: |
       php artisan cache:clear
       php artisan config:clear
+      php artisan event:clear
       php artisan route:clear
       php artisan view:clear
       php artisan filament:optimize-clear
+      php artisan filament:clear-cached-components
+  make-user:
+    service: appserver
+    description: Create a new user
+    cmd: php artisan make:filament-user

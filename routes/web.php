@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('dashboard/register', Register::class)
-    ->name('filament.dashboard.auth.register')
+Route::get('invite/register', Register::class)
+    ->name('filament.invite.auth.register')
     ->middleware('signed')
     ->middleware('guest');

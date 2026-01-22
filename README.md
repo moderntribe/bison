@@ -22,7 +22,7 @@ lando start
 
 Now, you should be able to access the Laravel admin at `https://bison.lndo.site/`.
 
-2. **Access the Admin Panel**
+### **Access the Admin Panel**
 
 If you are starting from a fresh installation, you may have to create a new admin user. To do this, enter the following command and follow the prompts:
 

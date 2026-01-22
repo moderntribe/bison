@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Actions;
+namespace App\Filament\Resources\Users\Actions;
 
 use App\Enums\RolesEnum;
 use App\Mail\InviteUser;
@@ -9,6 +9,8 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\Size;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -16,42 +18,47 @@ use Illuminate\Validation\Rule;
 
 class InviteUserAction
 {
-    public static function make(): static
+    public static function make(string $name): Action
     {
-        return app(static::class);
-    }
-
-    public function action(): Action
-    {
-        return Action::make('inviteUser')
+        return Action::make($name)
             ->label(__('Invite User'))
+            ->icon('phosphor-envelope-simple')
+            ->size(Size::Small)
             ->color('gray')
             ->modalIconColor('primary')
             ->modalDescription(__('Manage the access level a user has for your Account by assigning them a Role. Invitations will be sent by email to the user added below.'))
             ->modalIcon('phosphor-user-plus-duotone')
-            ->modalWidth('max-w-lg')
-            ->form([
+            ->modalWidth(Width::ExtraLarge)
+            ->tooltip(__('Invite a new user to your account'))
+            ->schema([
                 TextInput::make('name')
                     ->label(__('Name'))
                     ->helperText(__('Enter the full name of the user.'))
+                    ->maxLength(255)
                     ->required(),
                 TextInput::make('email')
                     ->label(__('Email Address'))
                     ->helperText(__('Enter the email address of the user.'))
-                    ->unique(table: User::class)
+                    ->prefixIcon('phosphor-envelope-simple')
+                    ->unique()
+                    ->validationMessages([
+                        'unique' => 'This :attribute has already been registered.',
+                    ])
                     ->email()
+                    ->maxLength(255)
                     ->required(),
                 Select::make('role')
                     ->label(__('Role'))
                     ->helperText(__('Select the role for this user.'))
+                    ->prefixIcon('phosphor-shield-check')
                     ->options(RolesEnum::class)
-                    ->default(RolesEnum::EDITOR->value),
+                    ->default(RolesEnum::EDITOR->value)
+                    ->required(),
             ])
-            ->visible(fn () => auth()->user()?->can('create', User::class))
-            ->action(fn (array $data) => $this->handle($data));
+            ->action(fn (array $data) => InviteUserAction::handle($data));
     }
 
-    public function handle(array $data): void
+    public static function handle(array $data): void
     {
         $validator = Validator::make($data, [
             'name'  => 'required',
@@ -70,13 +77,19 @@ class InviteUserAction
         // Retrieve the validated input...
         $validated = $validator->validated();
 
-        $user = User::create([
-            'name'         => $validated['name'],
-            'email'        => $validated['email'],
-            'password'     => null,
-            'invite_token' => Str::random(60),
-        ]);
-        $user->assignRole(RolesEnum::from($validated['role']));
+        // Create user without firing events
+        // this will be a "silent" creation to prevent our default role assignment from triggering
+        $user = User::withoutEvents(function () use ($validated) {
+            return tap(
+                User::create([
+                    'name'         => $validated['name'],
+                    'email'        => $validated['email'],
+                    'password'     => null,
+                    'invite_token' => Str::random(60),
+                ])
+            )
+                ->assignRole($validated['role']);
+        });
 
         // Send email to the requested user
         Mail::to($user->email)->send(new InviteUser($user));
