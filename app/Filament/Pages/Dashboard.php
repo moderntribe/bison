@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Livewire\LinksList;
+use BackedEnum;
 use Filament\Facades\Filament;
 use Filament\Pages\Dashboard as DashboardPage;
 use Filament\Widgets\AccountWidget;
@@ -10,11 +11,11 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class Dashboard extends DashboardPage
 {
-    protected static ?string $navigationIcon = 'phosphor-circles-three-plus-duotone';
+    protected static string|BackedEnum|null $navigationIcon = 'phosphor-circles-three-plus-duotone';
 
-    protected static string $view = 'filament.pages.dashboard';
+    protected string $view = 'filament.pages.dashboard';
 
-    public function getColumns(): int|string|array
+    public function getColumns(): array|int
     {
         return [
             'default' => 1,
