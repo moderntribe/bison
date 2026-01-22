@@ -20,7 +20,7 @@ To begin, you can start Lando.
 lando start
 ```
 
-Now, you should be able to access the Laravel admin at `https://bison.lndo.site/`.
+Now, you should be able to access the Laravel admin at `https://bison.lndo.site/dashboard`.
 
 ### **Access the Admin Panel**
 
@@ -45,5 +45,5 @@ Example Output:
  │ ••••••••                                                     │
  └──────────────────────────────────────────────────────────────┘
 
-   INFO  Success! vendors@tri.be may now log in at https://bison.lndo.site/auth/login.
+   INFO  Success! vendors@tri.be may now log in at https://bison.lndo.site/dashboard/login.
 ```
