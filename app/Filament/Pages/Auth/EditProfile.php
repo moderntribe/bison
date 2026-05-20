@@ -6,6 +6,7 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\Role;
 use Filament\Auth\Pages\EditProfile as EditProfileBase;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -33,21 +34,33 @@ class EditProfile extends EditProfileBase
 
     public function form(Schema $schema): Schema
     {
+        /** @var TextInput $nameFormComponent */
+        $nameFormComponent = $this->getNameFormComponent();
+
+        /** @var TextInput $emailFormComponent */
+        $emailFormComponent = $this->getEmailFormComponent();
+
+        /** @var TextInput $passwordFormComponent */
+        $passwordFormComponent = $this->getPasswordFormComponent();
+
+        /** @var TextInput $passwordConfirmationFormComponent */
+        $passwordConfirmationFormComponent = $this->getPasswordConfirmationFormComponent();
+
         return $schema
             ->components([
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make(__('Account Details'))
                             ->schema([
-                                $this->getNameFormComponent()
+                                $nameFormComponent
                                     ->helperText(__('Your full name, used for display purposes')),
-                                $this->getEmailFormComponent()
+                                $emailFormComponent
                                     ->helperText(__('Your email address, used for notifications and account recovery'))
                                     ->prefixIcon('phosphor-envelope-simple'),
                                 Select::make('roles')
                                     ->label(__('Role'))
                                     ->relationship('roles', 'name')
-                                    ->getOptionLabelFromRecordUsing(fn (Role $record) => $record?->name?->getLabel())
+                                    ->getOptionLabelFromRecordUsing(fn (Role $record): string => $record->name->getLabel())
                                     ->prefixIcon('phosphor-shield-check')
                                     ->required()
                                     ->searchable()
@@ -55,9 +68,9 @@ class EditProfile extends EditProfileBase
                             ]),
                         Tab::make(__('Security'))
                             ->schema([
-                                $this->getPasswordFormComponent()
+                                $passwordFormComponent
                                     ->label(__('New Password')),
-                                $this->getPasswordConfirmationFormComponent()
+                                $passwordConfirmationFormComponent
                                     ->label(__('Confirm New Password'))
                                     ->helperText(__('Verify your new password')),
                                 $this->getCurrentPasswordFormComponent(),

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\RolesEnum;
 use App\Observers\UserObserver;
+use Database\Factories\UserFactory;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Facades\Filament;
@@ -25,9 +26,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     use HasFactory, HasRoles, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -37,9 +36,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',

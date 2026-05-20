@@ -32,6 +32,11 @@ tooling:
     description: Run Duster fix|lint
     cmd: ./vendor/bin/duster
     dir: /app
+  analyse:
+    service: appserver
+    description: Run Larastan static analysis
+    cmd: composer analyse
+    dir: /app
   art:
     service: appserver
     description: Run an Artisan command

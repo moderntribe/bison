@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\select;
@@ -31,7 +32,7 @@ class CreateUser extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $name  = text(label: 'What is the name of the user?', required: true);
         $email = text(
@@ -73,9 +74,11 @@ class CreateUser extends Command
         } catch (Exception $e) {
             $this->error("Failed to create user: {$e->getMessage()}");
 
-            return;
+            return Command::FAILURE;
         }
 
         $this->info("User: {$user->name} with role {$role} created successfully.");
+
+        return Command::SUCCESS;
     }
 }

@@ -52,6 +52,9 @@ class TestMailDriver extends Command implements PromptsForMissingInput
         $this->info('Test email sent');
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function promptForMissingArgumentsUsing(): array
     {
         return [

@@ -35,7 +35,7 @@ class UserForm
                         Select::make('roles')
                             ->label(__('Role'))
                             ->relationship('roles', 'name')
-                            ->getOptionLabelFromRecordUsing(fn (Role $record) => $record?->name?->getLabel())
+                            ->getOptionLabelFromRecordUsing(fn (Role $record): string => $record->name->getLabel())
                             ->prefixIcon('phosphor-shield-check')
                             ->required()
                             ->searchable()
