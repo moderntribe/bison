@@ -8,7 +8,7 @@ enum NavigationGroupsEnum: string implements HasLabel
 {
     case ADMIN = 'admin';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::ADMIN => __('Organization'),

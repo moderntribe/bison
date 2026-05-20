@@ -11,7 +11,7 @@ enum RolesEnum: string implements HasColor, HasLabel
     case ADMIN       = 'admin';
     case EDITOR      = 'editor';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::SUPER_ADMIN => __('Super Admin'),
@@ -20,7 +20,7 @@ enum RolesEnum: string implements HasColor, HasLabel
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::SUPER_ADMIN => 'primary',

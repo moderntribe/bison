@@ -58,6 +58,9 @@ class InviteUserAction
             ->action(fn (array $data) => InviteUserAction::handle($data));
     }
 
+    /**
+     * @param  array{name: string, email: string, role: string}  $data
+     */
     public static function handle(array $data): void
     {
         $validator = Validator::make($data, [
