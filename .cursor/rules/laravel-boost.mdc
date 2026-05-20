@@ -13,11 +13,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 - php - 8.3.15
 - filament/filament (FILAMENT) - v4
-- laravel/framework (LARAVEL) - v12
+- laravel/framework (LARAVEL) - v13
 - laravel/prompts (PROMPTS) - v0
 - livewire/livewire (LIVEWIRE) - v3
 - laravel/pint (PINT) - v1
-- pestphp/pest (PEST) - v3
+- pestphp/pest (PEST) - v4
 - rector/rector (RECTOR) - v2
 - tailwindcss (TAILWINDCSS) - v3
 
