@@ -1,5 +1,8 @@
 <?php
 
+use Carbon\BespinTimeMocking;
+use Carbon\Carbonite;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -10,6 +13,8 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
+
+uses(BespinTimeMocking::class)->in('Feature', 'Unit');
 
 pest()->extend(Tests\TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
@@ -44,4 +49,26 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+/**
+ * Run a callback with time frozen, then restore the real timeline.
+ */
+function fakeAsync(callable $callback): mixed
+{
+    Carbonite::freeze();
+
+    try {
+        return $callback();
+    } finally {
+        Carbonite::release();
+    }
+}
+
+/**
+ * Advance the fake timeline by the given number of milliseconds.
+ */
+function tick(int $milliseconds): void
+{
+    Carbonite::elapse("{$milliseconds} milliseconds");
 }
